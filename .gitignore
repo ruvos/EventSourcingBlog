@@ -1,3 +1,5 @@
 /vendor/
 .idea
 dev-tools/vendor
+.phpunit.cache
+public/report
