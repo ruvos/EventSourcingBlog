@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ruvos\Blog\DomainObject\Post\Event;
 
 use Ruvos\Blog\DomainObject\AbstractEvent;
