@@ -7,6 +7,11 @@
             "Ruvos\\Blog\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Blog\\Tests\\": "tests/"
+        }
+    },
     "config": {
         "platform": {
             "php": "8.3"
