@@ -12,5 +12,7 @@
             "php": "8.3"
         }
     },
-    "require": {}
+    "require": {
+        "ramsey/uuid": "^4.7"
+    }
 }
