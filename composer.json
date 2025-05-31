@@ -1,0 +1,11 @@
+{
+    "name": "ruvos/blog",
+    "description": "Little blog software which is eventsourced",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ruvos\\Blog\\": "src/"
+        }
+    },
+    "require": {}
+}
