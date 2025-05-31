@@ -7,5 +7,10 @@
             "Ruvos\\Blog\\": "src/"
         }
     },
+    "config": {
+        "platform": {
+            "php": "8.3"
+        }
+    },
     "require": {}
 }
