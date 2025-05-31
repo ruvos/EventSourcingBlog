@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace Ruvos\Blog\DomainObject;
 
@@ -10,5 +10,6 @@ abstract readonly class AbstractEvent implements Event
         public string $correlationId,
         public string $eventId,
         public \DateTimeInterface $createdAt
-    ){}
+    ) {
+    }
 }

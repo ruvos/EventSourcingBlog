@@ -15,8 +15,12 @@ final readonly class PostCreatedEvent extends AbstractEvent
         return self::TOPIC;
     }
 
-    private function __construct(string $eventId, string $correlationId, \DateTimeInterface $createdAt, public string $title)
-    {
+    private function __construct(
+        string $eventId,
+        string $correlationId,
+        \DateTimeInterface $createdAt,
+        public string $title
+    ) {
         parent::__construct($correlationId, $eventId, $createdAt);
     }
 
