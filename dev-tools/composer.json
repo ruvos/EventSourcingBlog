@@ -24,8 +24,9 @@
     },
     "scripts": {
         "rector": "rector process src",
-        "phpstan": "phpstan analyse src",
+        "phpstan": "phpstan analyse ./../src --level 1",
         "phpunit": "vendor/bin/phpunit -c ../phpunit.xml",
-        "report": "XDEBUG_MODE=coverage vendor/bin/phpunit -c ../phpunit.xml --coverage-html ../public/report"
+        "report": "XDEBUG_MODE=coverage vendor/bin/phpunit -c ../phpunit.xml --coverage-html ../public/report",
+        "roundtrip": "php vendor/bin/phpcs ../src && composer report"
     }
 }
