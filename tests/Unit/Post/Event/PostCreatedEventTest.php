@@ -27,4 +27,24 @@ final class PostCreatedEventTest extends TestCase
     {
         $this->assertSame('post.created',PostCreatedEvent::getTopic());
     }
+
+    public function testTitleIsCorrectSet(): void
+    {
+        $event = PostCreatedEvent::create('New Title');
+
+        $this->assertSame('New Title', $event->title);
+    }
+
+    public function testCreatedAtIsValid(): void
+    {
+        $event = PostCreatedEvent::create('New Title');
+        $this->assertInstanceOf(\DateTimeInterface::class, $event->createdAt);
+
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        $this->assertSame(
+            $now->format('Y-m-d H:i:s'),
+            $event->createdAt->format('Y-m-d H:i:s')
+        );
+    }
 }

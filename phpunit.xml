@@ -22,5 +22,8 @@
         <include>
             <directory>src</directory>
         </include>
+        <exclude>
+            <directory suffix="Exception.php">src/DomainObject/Exception</directory>
+        </exclude>
     </source>
 </phpunit>
