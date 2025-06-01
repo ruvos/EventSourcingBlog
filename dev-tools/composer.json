@@ -30,7 +30,8 @@
         "rector": "rector process src",
         "phpstan": "phpstan analyse ./../src --level 1",
         "phpunit": "vendor/bin/phpunit -c ../phpunit.xml",
-        "report": "XDEBUG_MODE=coverage vendor/bin/phpunit -c ../phpunit.xml --coverage-html ../public/report",
-        "roundtrip": "php vendor/bin/phpcs ../src && composer report"
+        "report": "XDEBUG_MODE=coverage vendor/bin/phpunit -c ../phpunit.xml --coverage-html ../public/report --log-junit ../public/report/junit.xml --coverage-xml ../public/report/",
+        "infection": "php vendor/bin/infection --coverage=../public/report --configuration=infection.json5",
+        "roundtrip": "php vendor/bin/phpcs ../src && composer report && composer infection"
     }
 }

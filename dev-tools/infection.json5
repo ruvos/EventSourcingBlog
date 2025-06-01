@@ -1,0 +1,29 @@
+{
+  "source": {
+    "directories": [
+      "./../src"
+    ],
+    "excludes": [
+      "./../.ddev"
+    ]
+  },
+  "logs": {
+    "text": "./../infection.log",
+    "html": "./../public/infection.html",
+    "stryker": {
+      "report": "master"
+    }
+  },
+  "mutators": {
+    "@default": true
+  },
+  "testFramework": "phpunit",
+  "bootstrap": "./../vendor/autoload.php",
+  "timeout": 10,
+  "phpUnit": {
+    "configDir": "./../",
+    "customPath": "./../dev-tools/vendor/bin/phpunit"
+  },
+  "minMsi": 60,
+  "minCoveredMsi": 70
+}

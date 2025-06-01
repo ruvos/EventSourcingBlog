@@ -1,0 +1,63 @@
+Escaped mutants:
+================
+
+1) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:26    [M] MethodCallRemoval
+
+@@ @@
+     }
+     private function __construct(string $eventId, string $correlationId, \DateTimeInterface $createdAt, public string $title)
+     {
+-        parent::__construct($correlationId, $eventId, $createdAt);
++        
+     }
+     public static function create(string $title): Event
+     {
+
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================
+
+Not Covered mutants:
+====================
+
+1) /var/www/html/src/DomainObject/AbstractDomainObject.php:19    [M] ProtectedVisibility
+
+@@ @@
+      * @var Event[]
+      */
+     protected array $events;
+-    protected function applyEvent(Event $event): void
++    private function applyEvent(Event $event): void
+     {
+         throw EventException::missingApplyMethod();
+     }
+
+
+2) /var/www/html/src/DomainObject/AbstractDomainObject.php:21    [M] Throw_
+
+@@ @@
+     protected array $events;
+     protected function applyEvent(Event $event): void
+     {
+-        throw EventException::missingApplyMethod();
++        EventException::missingApplyMethod();
+     }
+     protected function recordEvent(Event $event): void
+     {
+
+
+3) /var/www/html/src/DomainObject/Exception/EventException.php:7    [M] PublicVisibility
+
+@@ @@
+ 
+ final class EventException extends \Exception
+ {
+-    public static function missingApplyMethod(): self
++    protected static function missingApplyMethod(): self
+     {
+         return new self('Missing apply method.');
+     }
+ }
