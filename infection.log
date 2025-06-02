@@ -244,7 +244,7 @@ Not Covered mutants:
      {
 
 
-11) /var/www/html/src/DomainObject/Post/Post.php:50    [M] Throw_
+11) /var/www/html/src/DomainObject/Post/Post.php:39    [M] Throw_
 
 @@ @@
                  $this->applyPostCreatedEvent($event);

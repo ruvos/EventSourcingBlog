@@ -37,4 +37,15 @@ abstract class AbstractDomainObject
 
         return $events;
     }
+
+    public static function fromEvents(mixed $events): self
+    {
+        $that = new static();
+
+        foreach ($events as $event) {
+            $that->applyEvent($event);
+        }
+
+        return $that;
+    }
 }
