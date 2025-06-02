@@ -17,7 +17,7 @@ abstract class AbstractDomainObject
     /**
      * @var Event[]
      */
-    protected array $events;
+    protected array $events = [];
 
     protected function applyEvent(Event $event): void
     {
