@@ -25,5 +25,7 @@ final class PostTest extends TestCase
         $post = Post::create('New Title');
 
         $this->assertSame('New Title', $post->getTitle());
+        $this->assertCount(1, $post->getEvents());
+        $this->assertCount(0, $post->getEvents());
     }
 }
