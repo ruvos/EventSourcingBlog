@@ -29,4 +29,12 @@ abstract class AbstractDomainObject
         $this->applyEvent($event);
         $this->events[] = $event;
     }
+
+    public function getEvents(): array
+    {
+        $events = $this->events;
+        $this->events = [];
+
+        return $events;
+    }
 }
