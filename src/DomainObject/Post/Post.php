@@ -18,7 +18,6 @@ final class Post extends AbstractDomainObject
         $createdEvent = PostCreatedEvent::create($title);
 
         $that = new self();
-
         $that->recordEvent($createdEvent);
 
         return $that;

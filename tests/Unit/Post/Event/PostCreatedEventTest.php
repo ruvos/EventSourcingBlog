@@ -47,4 +47,16 @@ final class PostCreatedEventTest extends TestCase
             $event->createdAt->format('Y-m-d H:i:s')
         );
     }
+
+    public function testToJsonIsValid(): void
+    {
+        $event = PostCreatedEvent::create('New Title');
+        $this->assertJson($event->toJson());
+    }
+
+    public function testFromJsonIsValid(): void
+    {
+        $event = PostCreatedEvent::create('New Title');
+        $this->assertInstanceOf(PostCreatedEvent::class, PostCreatedEvent::fromJson($event->toJson()));
+    }
 }

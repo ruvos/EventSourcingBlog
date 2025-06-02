@@ -104,6 +104,32 @@ Escaped mutants:
  }
 
 
+9) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:41    [M] DecrementInteger
+
+@@ @@
+     }
+     public static function fromJson(string $payload)
+     {
+-        $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
++        $data = json_decode($payload, true, 511, JSON_THROW_ON_ERROR);
+         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
+     }
+     public function toJson(): string
+
+
+10) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:41    [M] IncrementInteger
+
+@@ @@
+     }
+     public static function fromJson(string $payload)
+     {
+-        $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
++        $data = json_decode($payload, true, 513, JSON_THROW_ON_ERROR);
+         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
+     }
+     public function toJson(): string
+
+
 Timed Out mutants:
 ==================
 
@@ -191,60 +217,7 @@ Not Covered mutants:
      {
 
 
-7) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:39    [M] PublicVisibility
-
-@@ @@
-         $eventId = DefaultUuidProvider::v4();
-         return new self($eventId, $correlationId, $createdAt, $title);
-     }
--    public static function fromJson(string $payload)
-+    protected static function fromJson(string $payload)
-     {
-         $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
-         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
-
-
-8) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:41    [M] DecrementInteger
-
-@@ @@
-     }
-     public static function fromJson(string $payload)
-     {
--        $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
-+        $data = json_decode($payload, true, 511, JSON_THROW_ON_ERROR);
-         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
-     }
-     public function toJson(): string
-
-
-9) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:41    [M] IncrementInteger
-
-@@ @@
-     }
-     public static function fromJson(string $payload)
-     {
--        $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
-+        $data = json_decode($payload, true, 513, JSON_THROW_ON_ERROR);
-         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
-     }
-     public function toJson(): string
-
-
-10) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:42    [M] NewObject
-
-@@ @@
-     public static function fromJson(string $payload)
-     {
-         $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
--        return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
-+        new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
-+        return null;
-     }
-     public function toJson(): string
-     {
-
-
-11) /var/www/html/src/DomainObject/Post/Post.php:39    [M] Throw_
+7) /var/www/html/src/DomainObject/Post/Post.php:38    [M] Throw_
 
 @@ @@
                  $this->applyPostCreatedEvent($event);
