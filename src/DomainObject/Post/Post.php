@@ -6,6 +6,7 @@ namespace Ruvos\Blog\DomainObject\Post;
 
 use Ruvos\Blog\DomainObject\AbstractDomainObject;
 use Ruvos\Blog\DomainObject\Event;
+use Ruvos\Blog\DomainObject\Exception\DomainObjectException;
 use Ruvos\Blog\DomainObject\Post\Event\PostCreatedEvent;
 
 final class Post extends AbstractDomainObject
@@ -23,6 +24,17 @@ final class Post extends AbstractDomainObject
         return $that;
     }
 
+    public static function fromEvents(mixed $events): self
+    {
+        $that = new self();
+
+        foreach ($events as $event) {
+            $that->applyEvent($event);
+        }
+
+        return $that;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
@@ -33,6 +45,9 @@ final class Post extends AbstractDomainObject
         switch ($event::getTopic()) {
             case PostCreatedEvent::getTopic():
                 $this->applyPostCreatedEvent($event);
+                break;
+            default:
+                throw DomainObjectException::unsupportedEvent($event);
         }
     }
 
