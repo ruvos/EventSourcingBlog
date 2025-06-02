@@ -20,12 +20,21 @@ use Ruvos\Blog\Utils\DefaultUuidProvider;
 #[UsesClass(DefaultUuidProvider::class)]
 final class PostTest extends TestCase
 {
-    public function testCreatePostIsValid(): void
+    public function testCreateNewPostIsValid(): void
     {
         $post = Post::create('New Title');
 
         $this->assertSame('New Title', $post->getTitle());
         $this->assertCount(1, $post->getEvents());
         $this->assertCount(0, $post->getEvents());
+    }
+
+    public function testCreateExistingFromEventsIsValid(): void
+    {
+        $createdEvent = PostCreatedEvent::create('New Title');
+        $post = Post::fromEvents([$createdEvent]);
+
+        $this->assertSame([], $post->getEvents());
+        $this->assertSame('New Title', $post->getTitle());
     }
 }
