@@ -8,3 +8,7 @@ Weil ich Lust drauf habe.
 ## Setup
 `````` bash
 ddev start
+``````
+
+## Wann fertig?
+Wenn fertig

@@ -1,6 +1,109 @@
 Escaped mutants:
 ================
 
+1) /var/www/html/src/Database/SqLiteEventStore.php:49    [M] ArrayItemRemoval
+
+@@ @@
+                               :payload
+                               )
+                               ');
+-        $statement->execute([':eventId' => $event->eventId, ':correlationId' => $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' => $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
++        $statement->execute([':correlationId' => $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' => $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
+         $connection->commit();
+     }
+     private function createSchema(): void
+
+
+2) /var/www/html/src/Database/SqLiteEventStore.php:50    [M] ArrayItem
+
+@@ @@
+                               :payload
+                               )
+                               ');
+-        $statement->execute([':eventId' => $event->eventId, ':correlationId' => $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' => $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
++        $statement->execute([':eventId' > $event->eventId, ':correlationId' => $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' => $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
+         $connection->commit();
+     }
+     private function createSchema(): void
+
+
+3) /var/www/html/src/Database/SqLiteEventStore.php:51    [M] ArrayItem
+
+@@ @@
+                               :payload
+                               )
+                               ');
+-        $statement->execute([':eventId' => $event->eventId, ':correlationId' => $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' => $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
++        $statement->execute([':eventId' => $event->eventId, ':correlationId' > $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' => $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
+         $connection->commit();
+     }
+     private function createSchema(): void
+
+
+4) /var/www/html/src/Database/SqLiteEventStore.php:53    [M] ArrayItem
+
+@@ @@
+                               :payload
+                               )
+                               ');
+-        $statement->execute([':eventId' => $event->eventId, ':correlationId' => $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' => $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
++        $statement->execute([':eventId' => $event->eventId, ':correlationId' => $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' > $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
+         $connection->commit();
+     }
+     private function createSchema(): void
+
+
+5) /var/www/html/src/Database/SqLiteEventStore.php:58    [M] MethodCallRemoval
+
+@@ @@
+                               )
+                               ');
+         $statement->execute([':eventId' => $event->eventId, ':correlationId' => $event->correlationId, ':topic' => $event->getTopic(), ':createdAt' => $event->createdAt->format('Y-m-d H:i:s.u'), ':payload' => $payload]);
+-        $connection->commit();
++        
+     }
+     private function createSchema(): void
+     {
+
+
+6) /var/www/html/src/Database/SqLiteEventStore.php:72    [M] MethodCallRemoval
+
+@@ @@
+             createdAt TEXT,
+             payload LONGTEXT
+         )');
+-        $this->pdo->exec('CREATE INDEX IF NOT EXISTS idx_correlation_id ON events (correlationId)');
++        
+         $this->pdo->exec('CREATE INDEX IF NOT EXISTS idx_topic ON events (topic)');
+     }
+     public function loadAll(): array
+
+
+7) /var/www/html/src/Database/SqLiteEventStore.php:73    [M] MethodCallRemoval
+
+@@ @@
+             payload LONGTEXT
+         )');
+         $this->pdo->exec('CREATE INDEX IF NOT EXISTS idx_correlation_id ON events (correlationId)');
+-        $this->pdo->exec('CREATE INDEX IF NOT EXISTS idx_topic ON events (topic)');
++        
+     }
+     public function loadAll(): array
+     {
+
+
+8) /var/www/html/src/Database/SqLiteEventStore.php:92    [M] ArrayOneItem
+
+@@ @@
+                     $events[] = PostCreatedEvent::fromJson($eventArray['payload']);
+             }
+         }
+-        return $events;
++        return count($events) > 1 ? array_slice($events, 0, 1, true) : $events;
+     }
+ }
+
+
 Timed Out mutants:
 ==================
 
@@ -9,3 +112,185 @@ Skipped mutants:
 
 Not Covered mutants:
 ====================
+
+1) /var/www/html/src/DomainObject/AbstractRepository.php:13    [M] ProtectedVisibility
+
+@@ @@
+     public function __construct(protected EventStore $eventStore)
+     {
+     }
+-    protected function sortEvents(array $events): array
++    private function sortEvents(array $events): array
+     {
+         $sortedEvents = [];
+         foreach ($events as $event) {
+
+
+2) /var/www/html/src/DomainObject/AbstractRepository.php:17    [M] Foreach_
+
+@@ @@
+     protected function sortEvents(array $events): array
+     {
+         $sortedEvents = [];
+-        foreach ($events as $event) {
++        foreach ([] as $event) {
+             $sortedEvents[$event->correlationId][] = $event;
+         }
+         return $sortedEvents;
+
+
+3) /var/www/html/src/DomainObject/AbstractRepository.php:21    [M] ArrayOneItem
+
+@@ @@
+         foreach ($events as $event) {
+             $sortedEvents[$event->correlationId][] = $event;
+         }
+-        return $sortedEvents;
++        return count($sortedEvents) > 1 ? array_slice($sortedEvents, 0, 1, true) : $sortedEvents;
+     }
+     protected function buildPostsFromEvents(array $postEvents): array
+     {
+
+
+4) /var/www/html/src/DomainObject/AbstractRepository.php:24    [M] ProtectedVisibility
+
+@@ @@
+         }
+         return $sortedEvents;
+     }
+-    protected function buildPostsFromEvents(array $postEvents): array
++    private function buildPostsFromEvents(array $postEvents): array
+     {
+         $posts = [];
+         foreach ($postEvents as $events) {
+
+
+5) /var/www/html/src/DomainObject/AbstractRepository.php:28    [M] Foreach_
+
+@@ @@
+     protected function buildPostsFromEvents(array $postEvents): array
+     {
+         $posts = [];
+-        foreach ($postEvents as $events) {
++        foreach ([] as $events) {
+             $posts[] = $this->getRelevantDomainObject()::fromEvents($events);
+         }
+         return $posts;
+
+
+6) /var/www/html/src/DomainObject/AbstractRepository.php:32    [M] ArrayOneItem
+
+@@ @@
+         foreach ($postEvents as $events) {
+             $posts[] = $this->getRelevantDomainObject()::fromEvents($events);
+         }
+-        return $posts;
++        return count($posts) > 1 ? array_slice($posts, 0, 1, true) : $posts;
+     }
+     public function loadAll(): array
+     {
+
+
+7) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:39    [M] PublicVisibility
+
+@@ @@
+         $eventId = DefaultUuidProvider::v4();
+         return new self($eventId, $correlationId, $createdAt, $title);
+     }
+-    public static function fromJson(string $payload)
++    protected static function fromJson(string $payload)
+     {
+         $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
+         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
+
+
+8) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:41    [M] DecrementInteger
+
+@@ @@
+     }
+     public static function fromJson(string $payload)
+     {
+-        $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
++        $data = json_decode($payload, true, 511, JSON_THROW_ON_ERROR);
+         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
+     }
+     public function toJson(): string
+
+
+9) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:41    [M] IncrementInteger
+
+@@ @@
+     }
+     public static function fromJson(string $payload)
+     {
+-        $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
++        $data = json_decode($payload, true, 513, JSON_THROW_ON_ERROR);
+         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
+     }
+     public function toJson(): string
+
+
+10) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:42    [M] NewObject
+
+@@ @@
+     public static function fromJson(string $payload)
+     {
+         $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
+-        return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
++        new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
++        return null;
+     }
+     public function toJson(): string
+     {
+
+
+11) /var/www/html/src/DomainObject/Post/Post.php:27    [M] PublicVisibility
+
+@@ @@
+         $that->recordEvent($createdEvent);
+         return $that;
+     }
+-    public static function fromEvents(mixed $events): self
++    protected static function fromEvents(mixed $events): self
+     {
+         $that = new self();
+         foreach ($events as $event) {
+
+
+12) /var/www/html/src/DomainObject/Post/Post.php:31    [M] Foreach_
+
+@@ @@
+     public static function fromEvents(mixed $events): self
+     {
+         $that = new self();
+-        foreach ($events as $event) {
++        foreach ([] as $event) {
+             $that->applyEvent($event);
+         }
+         return $that;
+
+
+13) /var/www/html/src/DomainObject/Post/Post.php:32    [M] MethodCallRemoval
+
+@@ @@
+     {
+         $that = new self();
+         foreach ($events as $event) {
+-            $that->applyEvent($event);
++            
+         }
+         return $that;
+     }
+
+
+14) /var/www/html/src/DomainObject/Post/Post.php:50    [M] Throw_
+
+@@ @@
+                 $this->applyPostCreatedEvent($event);
+                 break;
+             default:
+-                throw DomainObjectException::unsupportedEvent($event);
++                DomainObjectException::unsupportedEvent($event);
+         }
+     }
+     private function applyPostCreatedEvent(Event $event): void

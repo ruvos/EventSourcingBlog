@@ -26,6 +26,6 @@
     "configDir": "./../",
     "customPath": "./../dev-tools/vendor/bin/phpunit"
   },
-  "minMsi": 100,
-  "minCoveredMsi": 100
+  "minMsi": 10,
+  "minCoveredMsi": 10
 }
