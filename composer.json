@@ -18,6 +18,8 @@
         }
     },
     "require": {
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "symfony/dependency-injection": "^7.3",
+        "symfony/config": "^7.3"
     }
 }
