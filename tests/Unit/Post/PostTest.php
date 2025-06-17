@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Ruvos\Blog\DomainObject\AbstractEvent;
 use Ruvos\Blog\DomainObject\Post\Event\PostCreatedEvent;
 use Ruvos\Blog\DomainObject\Post\Post;
+use Ruvos\Blog\DomainObject\Post\State;
 use Ruvos\Blog\Utils\DefaultDateTimeProvider;
 use Ruvos\Blog\Utils\DefaultUuidProvider;
 
@@ -32,9 +33,11 @@ final class PostTest extends TestCase
     public function testCreateExistingFromEventsIsValid(): void
     {
         $createdEvent = PostCreatedEvent::create('New Title');
+        /** @var Post $post */
         $post = Post::fromEvents([$createdEvent]);
 
         $this->assertSame([], $post->getEvents());
         $this->assertSame('New Title', $post->getTitle());
+        $this->assertSame(State::DRAFT, $post->getState());
     }
 }

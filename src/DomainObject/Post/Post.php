@@ -13,6 +13,8 @@ final class Post extends AbstractDomainObject
 {
     private string $title;
 
+    private State $state;
+
     public static function create(string $title): self
     {
         $createdEvent = PostCreatedEvent::create($title);
@@ -28,6 +30,11 @@ final class Post extends AbstractDomainObject
         return $this->title;
     }
 
+    public function getState(): State
+    {
+        return $this->state;
+    }
+
     protected function applyEvent(Event $event): void
     {
         switch ($event::getTopic()) {
@@ -39,11 +46,12 @@ final class Post extends AbstractDomainObject
         }
     }
 
-    private function applyPostCreatedEvent(Event $event): void
+    private function applyPostCreatedEvent(PostCreatedEvent $event): void
     {
         $this->title = $event->title;
         $this->updatedAt = $event->createdAt;
         $this->correlationId = $event->correlationId;
         $this->createdAt = $event->createdAt;
+        $this->state = $event->state;
     }
 }
