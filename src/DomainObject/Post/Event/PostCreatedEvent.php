@@ -7,6 +7,7 @@ namespace Ruvos\Blog\DomainObject\Post\Event;
 use DateTimeImmutable;
 use Ruvos\Blog\DomainObject\AbstractEvent;
 use Ruvos\Blog\DomainObject\Event;
+use Ruvos\Blog\DomainObject\Post\State;
 use Ruvos\Blog\Utils\DefaultDateTimeProvider;
 use Ruvos\Blog\Utils\DefaultUuidProvider;
 
@@ -22,7 +23,8 @@ final readonly class PostCreatedEvent extends AbstractEvent
         string $eventId,
         string $correlationId,
         \DateTimeInterface $createdAt,
-        public string $title
+        public string $title,
+        public State $state
     ) {
         parent::__construct($correlationId, $eventId, $createdAt);
     }
@@ -32,8 +34,9 @@ final readonly class PostCreatedEvent extends AbstractEvent
         $createdAt = DefaultDateTimeProvider::now();
         $correlationId = DefaultUuidProvider::v4();
         $eventId = DefaultUuidProvider::v4();
+        $state = State::DRAFT;
 
-        return new self($eventId, $correlationId, $createdAt, $title);
+        return new self($eventId, $correlationId, $createdAt, $title, $state);
     }
 
     public static function fromJson(string $payload)
@@ -43,7 +46,8 @@ final readonly class PostCreatedEvent extends AbstractEvent
             $data['eventId'],
             $data['correlationId'],
             new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])),
-            $data['title']
+            $data['title'],
+            State::from($data['state'])
         );
     }
 
