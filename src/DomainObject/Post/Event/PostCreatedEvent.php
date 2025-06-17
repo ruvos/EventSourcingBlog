@@ -50,9 +50,4 @@ final readonly class PostCreatedEvent extends AbstractEvent
             State::from($data['state'])
         );
     }
-
-    public function toJson(): string
-    {
-        return json_encode($this, JSON_THROW_ON_ERROR);
-    }
 }
