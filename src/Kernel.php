@@ -7,6 +7,9 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
+/**
+ * @codeCoverageIgnore
+ **/
 final class Kernel
 {
     private static Container $container;
@@ -15,8 +18,8 @@ final class Kernel
     {
         $container = new ContainerBuilder();
 
-        $rootDir = dirname(__DIR__.'../');
-        $configDir = $rootDir.'/config/services/';
+        $rootDir = dirname(__DIR__ . '../');
+        $configDir = $rootDir . '/config/services/';
 
         $loader = new PhpFileLoader($container, new FileLocator($configDir));
         $loader->load('services.php');
