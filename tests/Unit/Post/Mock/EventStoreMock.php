@@ -7,9 +7,11 @@ use Ruvos\Blog\DomainObject\AbstractEvent;
 
 class EventStoreMock implements EventStore
 {
+      public array $events = [];
+
       public function loadAll(): array
       {
-            return [];
+            return $this->events;
       }
 
       public function save(AbstractEvent $event): void
