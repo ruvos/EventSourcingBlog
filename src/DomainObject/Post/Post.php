@@ -70,7 +70,7 @@ final class Post extends AbstractDomainObject
 
     public function addTextContent(TextContent $textContent): void
     {
-        $addedEvent = TextContentAddedEvent::create($textContent->correlationId);
+        $addedEvent = TextContentAddedEvent::create($textContent->correlationId, $this->correlationId);
 
         $this->recordEvent($addedEvent);
     }
