@@ -13,7 +13,6 @@ abstract readonly class AbstractRepository implements DomainObjectRepository
     protected function sortEvents(array $events): array
     {
         $sortedEvents = [];
-
         foreach ($events as $event) {
             $sortedEvents[$event->correlationId][] = $event;
         }
@@ -21,7 +20,7 @@ abstract readonly class AbstractRepository implements DomainObjectRepository
         return $sortedEvents;
     }
 
-    protected function buildPostsFromEvents(array $postEvents): array
+    protected function buildDomainObjects(array $postEvents): array
     {
         $posts = [];
 
@@ -35,8 +34,8 @@ abstract readonly class AbstractRepository implements DomainObjectRepository
     public function loadAll(): array
     {
         $events = $this->eventStore->loadAll();
-        $posts = $this->sortEvents($events);
+        $sortedEvents = $this->sortEvents($events);
 
-        return $this->buildPostsFromEvents($posts);
+        return $this->buildDomainObjects($sortedEvents);
     }
 }
