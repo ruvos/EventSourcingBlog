@@ -6,11 +6,21 @@ namespace Ruvos\Blog\DomainObject\Post;
 
 use Ruvos\Blog\DomainObject\AbstractRepository;
 use Ruvos\Blog\DomainObject\DomainObjectRepository;
+use Ruvos\Blog\DomainObject\Post\Event\PostCreatedEvent;
+use Ruvos\Blog\DomainObject\Post\Event\TextContentAddedEvent;
 
 final readonly class PostRepository extends AbstractRepository implements DomainObjectRepository
 {
     public function getRelevantDomainObject(): string
     {
         return Post::class;
+    }
+
+    protected function getRelevantEvents(): array
+    {
+        return [
+            PostCreatedEvent::class,
+            TextContentAddedEvent::class
+        ];
     }
 }
