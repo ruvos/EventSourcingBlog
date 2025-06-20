@@ -12,4 +12,9 @@ final class EventException extends \Exception
     {
         return new self('Missing apply method.');
     }
+
+    public static function missingFromJsonMethod(): self
+    {
+        return new self('Missing fromJson method');
+    }
 }
