@@ -39,7 +39,7 @@ final readonly class PostCreatedEvent extends AbstractEvent
         return new self($eventId, $correlationId, $createdAt, $title, $state);
     }
 
-    public static function fromJson(string $payload)
+    public static function fromJson(string $payload): self
     {
         $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
         return new self(
