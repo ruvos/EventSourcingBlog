@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ruvos\Blog\DomainObject\Post;
 
 use Ruvos\Blog\DomainObject\AbstractDomainObject;
+use Ruvos\Blog\DomainObject\Content\TextContent;
 use Ruvos\Blog\DomainObject\Event;
 use Ruvos\Blog\DomainObject\Exception\DomainObjectException;
 use Ruvos\Blog\DomainObject\Post\Event\PostCreatedEvent;
@@ -65,5 +66,12 @@ final class Post extends AbstractDomainObject
     {
         $this->updatedAt = $event->createdAt;
         $this->body[] = $event->textContentId;
+    }
+
+    public function addTextContent(TextContent $textContent): void
+    {
+        $addedEvent = TextContentAddedEvent::create($textContent->correlationId);
+
+        $this->recordEvent($addedEvent);
     }
 }
