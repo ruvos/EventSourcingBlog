@@ -4,6 +4,7 @@ namespace Ruvos\Blog\Database;
 
 use Ruvos\Blog\DomainObject\AbstractEvent;
 use Ruvos\Blog\DomainObject\Post\Event\PostCreatedEvent;
+use Ruvos\Blog\DomainObject\Post\Event\TextContentAddedEvent;
 
 final class SqLiteEventStore implements EventStore
 {
@@ -75,6 +76,8 @@ INSERT INTO events (
 
     public function loadAll(): array
     {
+        $this->getConnection();
+
         $statement = $this->pdo->prepare('SELECT * FROM events');
 
         $statement->execute();
@@ -86,6 +89,10 @@ INSERT INTO events (
             switch ($eventArray['topic']) {
                 case PostCreatedEvent::getTopic():
                     $events[] = PostCreatedEvent::fromJson($eventArray['payload']);
+                    break;
+                case TextContentAddedEvent::getTopic():
+                    $events[] = TextContentAddedEvent::fromJson($eventArray['payload']);
+                    break;
             }
         }
 
