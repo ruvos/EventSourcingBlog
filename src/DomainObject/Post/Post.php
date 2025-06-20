@@ -8,12 +8,15 @@ use Ruvos\Blog\DomainObject\AbstractDomainObject;
 use Ruvos\Blog\DomainObject\Event;
 use Ruvos\Blog\DomainObject\Exception\DomainObjectException;
 use Ruvos\Blog\DomainObject\Post\Event\PostCreatedEvent;
+use Ruvos\Blog\DomainObject\Post\Event\TextContentAddedEvent;
 
 final class Post extends AbstractDomainObject
 {
     private string $title;
 
     private State $state;
+
+    private array $body;
 
     public static function create(string $title): self
     {
@@ -41,6 +44,9 @@ final class Post extends AbstractDomainObject
             case PostCreatedEvent::getTopic():
                 $this->applyPostCreatedEvent($event);
                 break;
+            case TextContentAddedEvent::getTopic():
+                $this->applyTextContentAddedEvent($event);
+                break;
             default:
                 throw DomainObjectException::unsupportedEvent($event);
         }
@@ -53,5 +59,11 @@ final class Post extends AbstractDomainObject
         $this->correlationId = $event->correlationId;
         $this->createdAt = $event->createdAt;
         $this->state = $event->state;
+    }
+
+    private function applyTextContentAddedEvent(TextContentAddedEvent $event): void
+    {
+        $this->updatedAt = $event->createdAt;
+        $this->body[] = $event->textContentId;
     }
 }
