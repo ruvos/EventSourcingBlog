@@ -104,7 +104,33 @@ Escaped mutants:
  }
 
 
-9) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:41    [M] DecrementInteger
+9) /var/www/html/src/DomainObject/Content/Event/TextContentCreatedEvent.php:26    [M] MethodCallRemoval
+
+@@ @@
+     }
+     private function __construct(string $eventId, string $correlationId, \DateTimeInterface $createdAt, public string $content)
+     {
+-        parent::__construct($correlationId, $eventId, $createdAt);
++        
+     }
+     public static function create(string $content): self
+     {
+
+
+10) /var/www/html/src/DomainObject/Content/TextContent.php:30    [M] MethodCallRemoval
+
+@@ @@
+     {
+         switch ($event::getTopic()) {
+             case TextContentCreatedEvent::getTopic():
+-                $this->applyTextContentCreatedEvent($event);
++                
+                 break;
+             default:
+                 throw DomainObjectException::unsupportedEvent($event);
+
+
+11) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:44    [M] DecrementInteger
 
 @@ @@
      }
@@ -112,12 +138,12 @@ Escaped mutants:
      {
 -        $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
 +        $data = json_decode($payload, true, 511, JSON_THROW_ON_ERROR);
-         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
+         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title'], State::from($data['state']));
      }
-     public function toJson(): string
+ }
 
 
-10) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:41    [M] IncrementInteger
+12) /var/www/html/src/DomainObject/Post/Event/PostCreatedEvent.php:44    [M] IncrementInteger
 
 @@ @@
      }
@@ -125,9 +151,9 @@ Escaped mutants:
      {
 -        $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
 +        $data = json_decode($payload, true, 513, JSON_THROW_ON_ERROR);
-         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title']);
+         return new self($data['eventId'], $data['correlationId'], new DateTimeImmutable($data['createdAt']['date'], new \DateTimeZone($data['createdAt']['timezone'])), $data['title'], State::from($data['state']));
      }
-     public function toJson(): string
+ }
 
 
 Timed Out mutants:
@@ -139,92 +165,170 @@ Skipped mutants:
 Not Covered mutants:
 ====================
 
-1) /var/www/html/src/DomainObject/AbstractRepository.php:13    [M] ProtectedVisibility
+1) /var/www/html/src/DomainObject/Post/Event/TextContentAddedEvent.php:24    [M] MethodCallRemoval
 
 @@ @@
-     public function __construct(protected EventStore $eventStore)
-     {
      }
--    protected function sortEvents(array $events): array
-+    private function sortEvents(array $events): array
+     private function __construct(string $eventId, string $correlationId, \DateTimeInterface $createdAt, public string $textContentId)
      {
-         $sortedEvents = [];
-         foreach ($events as $event) {
-
-
-2) /var/www/html/src/DomainObject/AbstractRepository.php:17    [M] Foreach_
-
-@@ @@
-     protected function sortEvents(array $events): array
-     {
-         $sortedEvents = [];
--        foreach ($events as $event) {
-+        foreach ([] as $event) {
-             $sortedEvents[$event->correlationId][] = $event;
-         }
-         return $sortedEvents;
-
-
-3) /var/www/html/src/DomainObject/AbstractRepository.php:21    [M] ArrayOneItem
-
-@@ @@
-         foreach ($events as $event) {
-             $sortedEvents[$event->correlationId][] = $event;
-         }
--        return $sortedEvents;
-+        return count($sortedEvents) > 1 ? array_slice($sortedEvents, 0, 1, true) : $sortedEvents;
+-        parent::__construct($correlationId, $eventId, $createdAt);
++        
      }
-     protected function buildPostsFromEvents(array $postEvents): array
-     {
+ }
 
 
-4) /var/www/html/src/DomainObject/AbstractRepository.php:24    [M] ProtectedVisibility
-
-@@ @@
-         }
-         return $sortedEvents;
-     }
--    protected function buildPostsFromEvents(array $postEvents): array
-+    private function buildPostsFromEvents(array $postEvents): array
-     {
-         $posts = [];
-         foreach ($postEvents as $events) {
-
-
-5) /var/www/html/src/DomainObject/AbstractRepository.php:28    [M] Foreach_
-
-@@ @@
-     protected function buildPostsFromEvents(array $postEvents): array
-     {
-         $posts = [];
--        foreach ($postEvents as $events) {
-+        foreach ([] as $events) {
-             $posts[] = $this->getRelevantDomainObject()::fromEvents($events);
-         }
-         return $posts;
-
-
-6) /var/www/html/src/DomainObject/AbstractRepository.php:32    [M] ArrayOneItem
-
-@@ @@
-         foreach ($postEvents as $events) {
-             $posts[] = $this->getRelevantDomainObject()::fromEvents($events);
-         }
--        return $posts;
-+        return count($posts) > 1 ? array_slice($posts, 0, 1, true) : $posts;
-     }
-     public function loadAll(): array
-     {
-
-
-7) /var/www/html/src/DomainObject/Post/Post.php:38    [M] Throw_
+2) /var/www/html/src/DomainObject/Post/Post.php:48    [M] MethodCallRemoval
 
 @@ @@
                  $this->applyPostCreatedEvent($event);
+                 break;
+             case TextContentAddedEvent::getTopic():
+-                $this->applyTextContentAddedEvent($event);
++                
+                 break;
+             default:
+                 throw DomainObjectException::unsupportedEvent($event);
+
+
+3) /var/www/html/src/DomainObject/Post/Post.php:51    [M] Throw_
+
+@@ @@
+                 $this->applyTextContentAddedEvent($event);
                  break;
              default:
 -                throw DomainObjectException::unsupportedEvent($event);
 +                DomainObjectException::unsupportedEvent($event);
          }
      }
-     private function applyPostCreatedEvent(Event $event): void
+     private function applyPostCreatedEvent(PostCreatedEvent $event): void
+
+
+4) /var/www/html/src/Kernel.php:17    [M] PublicVisibility
+
+@@ @@
+ final class Kernel
+ {
+     private static Container $container;
+-    public static function boot(): void
++    protected static function boot(): void
+     {
+         $container = new ContainerBuilder();
+         $rootDir = dirname(__DIR__ . '../');
+
+
+5) /var/www/html/src/Kernel.php:21    [M] Concat
+
+@@ @@
+     public static function boot(): void
+     {
+         $container = new ContainerBuilder();
+-        $rootDir = dirname(__DIR__ . '../');
++        $rootDir = dirname('../' . __DIR__);
+         $configDir = $rootDir . '/config/services/';
+         $loader = new PhpFileLoader($container, new FileLocator($configDir));
+         $loader->load('services.php');
+
+
+6) /var/www/html/src/Kernel.php:21    [M] ConcatOperandRemoval
+
+@@ @@
+     public static function boot(): void
+     {
+         $container = new ContainerBuilder();
+-        $rootDir = dirname(__DIR__ . '../');
++        $rootDir = dirname('../');
+         $configDir = $rootDir . '/config/services/';
+         $loader = new PhpFileLoader($container, new FileLocator($configDir));
+         $loader->load('services.php');
+
+
+7) /var/www/html/src/Kernel.php:21    [M] ConcatOperandRemoval
+
+@@ @@
+     public static function boot(): void
+     {
+         $container = new ContainerBuilder();
+-        $rootDir = dirname(__DIR__ . '../');
++        $rootDir = dirname(__DIR__);
+         $configDir = $rootDir . '/config/services/';
+         $loader = new PhpFileLoader($container, new FileLocator($configDir));
+         $loader->load('services.php');
+
+
+8) /var/www/html/src/Kernel.php:22    [M] Concat
+
+@@ @@
+     {
+         $container = new ContainerBuilder();
+         $rootDir = dirname(__DIR__ . '../');
+-        $configDir = $rootDir . '/config/services/';
++        $configDir = '/config/services/' . $rootDir;
+         $loader = new PhpFileLoader($container, new FileLocator($configDir));
+         $loader->load('services.php');
+         $container->compile();
+
+
+9) /var/www/html/src/Kernel.php:22    [M] ConcatOperandRemoval
+
+@@ @@
+     {
+         $container = new ContainerBuilder();
+         $rootDir = dirname(__DIR__ . '../');
+-        $configDir = $rootDir . '/config/services/';
++        $configDir = '/config/services/';
+         $loader = new PhpFileLoader($container, new FileLocator($configDir));
+         $loader->load('services.php');
+         $container->compile();
+
+
+10) /var/www/html/src/Kernel.php:22    [M] ConcatOperandRemoval
+
+@@ @@
+     {
+         $container = new ContainerBuilder();
+         $rootDir = dirname(__DIR__ . '../');
+-        $configDir = $rootDir . '/config/services/';
++        $configDir = $rootDir;
+         $loader = new PhpFileLoader($container, new FileLocator($configDir));
+         $loader->load('services.php');
+         $container->compile();
+
+
+11) /var/www/html/src/Kernel.php:25    [M] MethodCallRemoval
+
+@@ @@
+         $rootDir = dirname(__DIR__ . '../');
+         $configDir = $rootDir . '/config/services/';
+         $loader = new PhpFileLoader($container, new FileLocator($configDir));
+-        $loader->load('services.php');
++        
+         $container->compile();
+         self::$container = $container;
+     }
+
+
+12) /var/www/html/src/Kernel.php:27    [M] MethodCallRemoval
+
+@@ @@
+         $configDir = $rootDir . '/config/services/';
+         $loader = new PhpFileLoader($container, new FileLocator($configDir));
+         $loader->load('services.php');
+-        $container->compile();
++        
+         self::$container = $container;
+     }
+     public static function getContainer(): Container
+
+
+13) /var/www/html/src/Kernel.php:34    [M] PublicVisibility
+
+@@ @@
+         $container->compile();
+         self::$container = $container;
+     }
+-    public static function getContainer(): Container
++    protected static function getContainer(): Container
+     {
+         return self::$container;
+     }
+ }
