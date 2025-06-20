@@ -20,7 +20,7 @@ final readonly class TextContentAddedEvent extends AbstractEvent
         string $correlationId,
         \DateTimeInterface $createdAt,
         public string $textContentId
-        ) {
+    ) {
         parent::__construct($correlationId, $eventId, $createdAt);
     }
 }
