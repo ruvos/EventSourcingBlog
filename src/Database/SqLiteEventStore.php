@@ -3,6 +3,7 @@
 namespace Ruvos\Blog\Database;
 
 use Ruvos\Blog\DomainObject\AbstractEvent;
+use Ruvos\Blog\DomainObject\Content\Event\TextContentCreatedEvent;
 use Ruvos\Blog\DomainObject\Post\Event\PostCreatedEvent;
 use Ruvos\Blog\DomainObject\Post\Event\TextContentAddedEvent;
 
@@ -92,6 +93,9 @@ INSERT INTO events (
                     break;
                 case TextContentAddedEvent::getTopic():
                     $events[] = TextContentAddedEvent::fromJson($eventArray['payload']);
+                    break;
+                case TextContentCreatedEvent::getTopic():
+                    $events[] = TextContentCreatedEvent::fromJson($eventArray['payload']);
                     break;
             }
         }
