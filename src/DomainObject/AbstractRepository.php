@@ -2,6 +2,7 @@
 
 namespace Ruvos\Blog\DomainObject;
 
+use Exception;
 use Ruvos\Blog\Database\EventStore;
 
 abstract readonly class AbstractRepository implements DomainObjectRepository
@@ -14,7 +15,9 @@ abstract readonly class AbstractRepository implements DomainObjectRepository
     {
         $sortedEvents = [];
         foreach ($events as $event) {
-            $sortedEvents[$event->correlationId][] = $event;
+            if ($this->isEventRelevant($event)) {
+                $sortedEvents[$event->correlationId][] = $event;
+            }
         }
 
         return $sortedEvents;
@@ -37,5 +40,15 @@ abstract readonly class AbstractRepository implements DomainObjectRepository
         $sortedEvents = $this->sortEvents($events);
 
         return $this->buildDomainObjects($sortedEvents);
+    }
+
+    private function isEventRelevant(AbstractEvent $event)
+    {
+        return in_array($event::class, $this->getRelevantEvents());
+    }
+
+    protected function getRelevantEvents(): array
+    {
+        throw new Exception('No classes given');
     }
 }
