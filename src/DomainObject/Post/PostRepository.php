@@ -6,11 +6,10 @@ namespace Ruvos\Blog\DomainObject\Post;
 
 use Ruvos\Blog\Database\EventStore;
 use Ruvos\Blog\DomainObject\AbstractRepository;
-use Ruvos\Blog\DomainObject\DomainObjectRepository;
 use Ruvos\Blog\DomainObject\Post\Event\PostCreatedEvent;
 use Ruvos\Blog\DomainObject\Post\Event\TextContentAddedEvent;
 
-final class PostRepository extends AbstractRepository implements DomainObjectRepository
+final class PostRepository extends AbstractRepository
 {
     public function __construct(EventStore $eventStore)
     {
