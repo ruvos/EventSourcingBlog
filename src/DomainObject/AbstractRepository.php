@@ -52,5 +52,5 @@ abstract class AbstractRepository implements DomainObjectRepository
     protected function setRelevantEvents(array $events): void
     {
         $this->relevantEvents = $events;
-    }    
+    }
 }
