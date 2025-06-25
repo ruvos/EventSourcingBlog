@@ -18,7 +18,6 @@ use Throwable;
 
 #[CoversClass(TextContent::class)]
 #[UsesClass(AbstractDomainObject::class)]
-#[UsesClass(TextContent::class)]
 #[UsesClass(AbstractEvent::class)]
 #[UsesClass(TextContentCreatedEvent::class)]
 #[UsesClass(DefaultUuidProvider::class)]
