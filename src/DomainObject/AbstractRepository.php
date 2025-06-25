@@ -5,9 +5,11 @@ namespace Ruvos\Blog\DomainObject;
 use Exception;
 use Ruvos\Blog\Database\EventStore;
 
-abstract readonly class AbstractRepository implements DomainObjectRepository
+abstract class AbstractRepository implements DomainObjectRepository
 {
-    public function __construct(protected EventStore $eventStore)
+    private array $relevantEvents = [];
+
+    public function __construct(protected readonly EventStore $eventStore)
     {
     }
 
@@ -44,11 +46,11 @@ abstract readonly class AbstractRepository implements DomainObjectRepository
 
     private function isEventRelevant(AbstractEvent $event)
     {
-        return in_array($event::class, $this->getRelevantEvents());
+        return in_array($event::class, $this->relevantEvents);
     }
 
-    protected function getRelevantEvents(): array
+    protected function setRelevantEvents(array $events): void
     {
-        throw new Exception('No classes given');
-    }
+        $this->relevantEvents = $events;
+    }    
 }
